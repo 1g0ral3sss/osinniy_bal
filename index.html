@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Осінній бал — реєстрація</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500&family=Montserrat:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+--bg1:#fff1dc;--bg2:#f8c98f;--bg3:#d9723a;
+--card:rgba(255,251,245,.88);--ink:#3b1f12;--muted:#8a6650;--accent:#b4441a;--accent2:#e8903a;--gold:#c8902f;
+--line:rgba(180,68,26,.22);--field:#fffaf2;--ok:#2f7d4f;--err:#b3261e;--shadow:0 20px 60px rgba(120,45,10,.30);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2a130b;--bg2:#4a2111;--bg3:#8a3a17;--card:rgba(42,24,16,.88);--ink:#fbe9d6;--muted:#d1ad92;--accent:#f0985a;--accent2:#f5b35e;--gold:#e8b85a;--line:rgba(240,152,90,.28);--field:#1f120b;--ok:#6fcf97;--err:#ff8a80;--shadow:0 20px 60px rgba(0,0,0,.55)}}
+:root[data-theme="dark"]{--bg1:#2a130b;--bg2:#4a2111;--bg3:#8a3a17;--card:rgba(42,24,16,.88);--ink:#fbe9d6;--muted:#d1ad92;--accent:#f0985a;--accent2:#f5b35e;--gold:#e8b85a;--line:rgba(240,152,90,.28);--field:#1f120b;--ok:#6fcf97;--err:#ff8a80;--shadow:0 20px 60px rgba(0,0,0,.55)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;min-height:100%;color:var(--ink);font-family:Montserrat,system-ui,sans-serif;
+background:radial-gradient(circle at 15% 10%,rgba(255,255,255,.35),transparent 40%),linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 55%,var(--bg3) 100%);
+background-color:var(--bg2);background-attachment:fixed;overflow-x:hidden}
+#leaves{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.lf{position:absolute;top:-60px;opacity:.85;animation:fall linear infinite;filter:drop-shadow(0 3px 3px rgba(80,30,5,.25))}
+@keyframes fall{0%{transform:translate3d(0,-10vh,0) rotate(0)}50%{transform:translate3d(40px,55vh,0) rotate(180deg)}100%{transform:translate3d(-30px,115vh,0) rotate(360deg)}}
+main{position:relative;z-index:1;max-width:620px;margin:0 auto;padding:36px 16px 40px}
+header{text-align:center;margin-bottom:26px}
+.orn{color:var(--gold);letter-spacing:10px;font-size:14px;margin-bottom:6px}
+.eyebrow{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:800;font-size:clamp(42px,12vw,70px);line-height:1;margin:10px 0 6px;
+background:linear-gradient(135deg,var(--accent),var(--accent2) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-size:19px;color:var(--muted);margin:0}
+.card{background:var(--card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:26px;padding:26px 22px;box-shadow:var(--shadow);position:relative}
+.card::before{content:"";position:absolute;inset:8px;border:1px dashed var(--line);border-radius:20px;pointer-events:none}
+fieldset{border:0;padding:0;margin:0;position:relative}
+.who{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.badge{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 6px 14px rgba(180,68,26,.35);flex:none}
+legend{padding:0;float:left;width:100%;font-family:"Playfair Display",Georgia,serif;font-weight:600;font-size:22px;margin-bottom:6px}
+legend small{display:block;font-family:Montserrat,sans-serif;font-size:12px;color:var(--muted);font-weight:400;letter-spacing:.5px}
+.grid{clear:both;display:grid;grid-template-columns:1fr 110px;gap:12px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;font-weight:500}
+input{width:100%;padding:14px 15px;font-size:16px;font-family:inherit;border:1.5px solid var(--line);border-radius:14px;background:var(--field);color:var(--ink);transition:border-color .2s,box-shadow .2s}
+input::placeholder{color:var(--muted);opacity:.55}
+input:focus{outline:none;border-color:var(--accent2);box-shadow:0 0 0 4px rgba(232,144,58,.25)}
+.divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--gold)}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.divider span{font-size:24px;animation:beat 1.8s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+button{font-family:inherit}
+.go{width:100%;margin-top:24px;padding:16px;font-size:17px;font-weight:600;letter-spacing:1px;border:0;border-radius:16px;color:#fff;cursor:pointer;
+background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 12px 26px rgba(180,68,26,.40);transition:transform .15s,box-shadow .15s}
+.go:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(180,68,26,.5)}
+.go:active{transform:translateY(0)}
+.go:disabled{opacity:.6;cursor:default;transform:none}
+.sec{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.sec:hover{box-shadow:none;background:var(--field)}
+.msg{margin-top:14px;text-align:center;font-size:14px;min-height:1.2em}
+.ok{color:var(--ok)}.err{color:var(--err)}
+.thanks{text-align:center;padding:10px 0}
+.thanks .big{font-size:64px;animation:beat 1.8s ease-in-out infinite}
+.thanks h2{font-family:"Playfair Display",Georgia,serif;font-size:34px;margin:8px 0;color:var(--accent)}
+.thanks p{color:var(--muted);line-height:1.6;margin:0}
+.thanks b{color:var(--ink)}
+.alink{display:block;text-align:center;margin:20px auto 0;background:none;border:0;color:var(--ink);opacity:.6;font-size:12px;letter-spacing:1px;padding:6px 10px;cursor:pointer;text-decoration:underline}
+.alink:hover{opacity:1}
+#adm{display:none}
+.wrap{overflow-x:auto;margin-top:14px;border-radius:14px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);background:var(--field)}
+tr:last-child td{border-bottom:0}
+.count{display:inline-block;margin-left:8px;padding:2px 12px;border-radius:99px;font-family:Montserrat,sans-serif;font-size:15px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+@media(prefers-reduced-motion:reduce){.lf,.divider span,.thanks .big{animation:none}}
+</style>
+</head>
+<body>
+<div id="leaves" aria-hidden="true"></div>
+<main>
+<header>
+<div class="orn">✦ ✦ ✦</div>
+<div class="eyebrow">Запрошуємо на</div>
+<h1>Осінній бал</h1>
+<p class="sub">Зареєструйте свою пару для вечора, який запам'ятається</p>
+</header>
+
+<div class="card" id="app">
+<form id="f" autocomplete="off" novalidate>
+<fieldset>
+<legend><div class="who"><span class="badge">1</span><span>Учасник<small>це ви</small></span></div></legend>
+<div class="grid">
+<div><label for="n1">Ім'я та прізвище</label><input id="n1" required maxlength="80" placeholder="Іван Петренко"></div>
+<div><label for="c1">Ваш клас</label><input id="c1" required maxlength="10" placeholder="10-А"></div>
+</div>
+</fieldset>
+<div class="divider"><span>❤</span></div>
+<fieldset>
+<legend><div class="who"><span class="badge">2</span><span>Партнер<small>ваша пара на балу</small></span></div></legend>
+<div class="grid">
+<div><label for="n2">Ім'я та прізвище</label><input id="n2" required maxlength="80" placeholder="Марія Коваленко"></div>
+<div><label for="c2">Клас партнера</label><input id="c2" required maxlength="10" placeholder="9-Б"></div>
+</div>
+</fieldset>
+<button id="b" class="go" type="submit">Зареєструватися 🍁</button>
+<div id="m" class="msg" role="status"></div>
+</form>
+</div>
+
+<a class="alink" href="/admin.html">Адмін</a>
+</main>
+<script>
+(function(){
+var L=document.getElementById('leaves'),S=['🍂','🍁','🍂','🍁','🍃'];
+for(var i=0;i<16;i++){var s=document.createElement('span');s.className='lf';s.textContent=S[i%S.length];
+s.style.left=(Math.random()*100)+'%';s.style.fontSize=(18+Math.random()*22)+'px';
+s.style.animationDuration=(9+Math.random()*10)+'s';s.style.animationDelay=(-Math.random()*18)+'s';L.appendChild(s)}
+
+var f=document.getElementById('f'),b=document.getElementById('b'),m=document.getElementById('m');
+function show(t,c){m.textContent=t;m.className='msg '+(c||'')}
+function esc(s){return s.replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+
+f.addEventListener('submit',async function(e){
+  e.preventDefault();
+  var v=['n1','c1','n2','c2'].map(function(id){return document.getElementById(id).value.trim()});
+  if(v.some(function(x){return !x})){show('Заповніть, будь ласка, усі поля.','err');return}
+  b.disabled=true;show('Надсилаємо…');
+  try{
+    var r=await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name1:v[0],class1:v[1],name2:v[2],class2:v[3]})});
+    var j=await r.json();if(!r.ok||!j.ok)throw new Error(j.msg||j.error||'fail');
+    document.getElementById('app').innerHTML='<div class="thanks"><div class="big">🎉</div><h2>Дякуємо!</h2><p>Пару <b>'+esc(v[0])+'</b> ('+esc(v[1])+') та <b>'+esc(v[2])+'</b> ('+esc(v[3])+')<br>успішно зареєстровано на Осінній бал.<br>До зустрічі на святі! 🍁</p></div>';
+  }catch(err){b.disabled=false;show(err.message&&err.message.length>4&&/[а-яіїє]/i.test(err.message)?err.message:'Не вдалося зберегти. Спробуйте ще раз.','err')}
+});
+
+})();
+</script>
+</body>
+</html>

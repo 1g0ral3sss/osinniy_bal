@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Адмін — Осінній бал</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:24px 14px;font-family:system-ui,sans-serif;color:#3b1f12;background:linear-gradient(160deg,#fff1dc,#f8c98f 55%,#d9723a) fixed}
+.card{max-width:900px;margin:0 auto;background:rgba(255,251,245,.94);border:1px solid rgba(180,68,26,.25);border-radius:22px;padding:24px;box-shadow:0 20px 60px rgba(120,45,10,.3)}
+h1{font-family:Georgia,serif;color:#b4441a;margin:0}
+label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#8a6650;margin:12px 0 6px}
+input{width:100%;padding:13px;font-size:16px;border:1.5px solid rgba(180,68,26,.25);border-radius:12px;background:#fffaf2}
+button{padding:13px 20px;font-size:16px;font-weight:600;border:0;border-radius:12px;color:#fff;cursor:pointer;background:linear-gradient(135deg,#b4441a,#e8903a);margin-top:16px}
+.sec{background:transparent;color:#3b1f12;border:1.5px solid rgba(180,68,26,.3);margin-top:0}
+.x{margin:0;padding:5px 10px;font-size:13px;background:#b3261e}
+.err{color:#b3261e;margin-top:12px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.count{background:#b4441a;color:#fff;border-radius:99px;padding:2px 12px;font-size:15px;font-family:system-ui}
+.wrap{overflow-x:auto;border:1px solid rgba(180,68,26,.25);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;white-space:nowrap;border-bottom:1px solid rgba(180,68,26,.2)}
+th{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#b4441a;background:#fffaf2}
+</style></head><body><div class="card">
+<form id="lf" autocomplete="off">
+<h1>Вхід для адміністратора</h1>
+<label for="lg">Логін</label><input id="lg" required autocomplete="username">
+<label for="pw">Пароль</label><input id="pw" type="password" required autocomplete="current-password">
+<button type="submit">Увійти</button>
+<div id="le" class="err"></div>
+<p><a href="/">← Назад до реєстрації</a></p>
+</form>
+<div id="ls" hidden>
+<div class="top"><h1>Зареєстровані пари <span class="count" id="cnt">0</span></h1><button class="sec" id="out">Вийти</button></div>
+<div class="wrap"><table><thead><tr><th>№</th><th>Учасник 1</th><th>Клас</th><th>Учасник 2</th><th>Клас</th><th>Час</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+<div id="em" class="err"></div>
+</div>
+<script>
+var lf=document.getElementById('lf'),ls=document.getElementById('ls');
+function cell(tr,t){var td=document.createElement('td');td.textContent=t;tr.appendChild(td);return td}
+async function api(method,body){return fetch('/api/admin',{method:method,headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined})}
+async function load(){
+  var r=await api('GET');
+  if(r.status===401){ls.hidden=true;lf.hidden=false;return false}
+  var j=await r.json(),em=document.getElementById('em');
+  lf.hidden=true;ls.hidden=false;
+  if(!j.ok){em.textContent=j.msg||'Помилка читання.';return true}
+  var body=document.getElementById('rows');body.textContent='';
+  document.getElementById('cnt').textContent=j.rows.length;
+  em.textContent=j.rows.length?'':'Поки що ніхто не зареєструвався.';
+  j.rows.forEach(function(x,i){var tr=document.createElement('tr');
+    cell(tr,i+1);cell(tr,x.name1);cell(tr,x.class1);cell(tr,x.name2);cell(tr,x.class2);
+    cell(tr,new Date(x.createdAt).toLocaleString('uk-UA'));
+    var b=document.createElement('button');b.className='x';b.textContent='Видалити';
+    b.onclick=async function(){if(confirm('Видалити цей запис?')){await api('DELETE',{id:x.id});load()}};
+    cell(tr,'').appendChild(b);body.appendChild(tr)});
+  return true;
+}
+lf.addEventListener('submit',async function(e){
+  e.preventDefault();
+  var r=await api('POST',{login:document.getElementById('lg').value.trim(),pass:document.getElementById('pw').value});
+  if(r.ok){document.getElementById('le').textContent='';load()}else{document.getElementById('le').textContent='Невірний логін або пароль.'}
+});
+document.getElementById('out').onclick=async function(){await api('PUT');location.reload()};
+load();
+</script>
+</div></body></html>
